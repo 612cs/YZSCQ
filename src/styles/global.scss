@@ -1,0 +1,21 @@
+@use './reset.scss';
+@use './variables.scss';
+
+body {
+  background: var(--app-bg);
+  color: var(--text-main);
+  font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.placeholder-page {
+  max-width: 960px;
+  margin: 80px auto;
+  padding: 32px;
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 16px;
+}
