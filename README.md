@@ -16,9 +16,9 @@
 
 ## 项目简介
 
-印章生成器是一个在线电子印章生成工具，基于 Vue 3 Composition API + TypeScript 构建。围绕「参数编辑 → SVG 实时预览 → PNG 高清导出」的核心链路，支持中文印章的圆弧文字、边框样式、老化做旧效果等精细调节。
+印章生成器是一个在线电子印章生成工具，基于 Vue 3 Composition API + TypeScript + Vite 构建。围绕「参数编辑 → SVG 实时预览 → PNG 高清导出」的核心链路，支持中文印章的圆弧文字排版、边框样式、老化做旧效果等精细调节。
 
-当前为纯前端 MVP 阶段，聚焦印章单页面编辑工作区体验，已完成 Flex/Grid 布局重构，适配桌面端操作场景。
+项目采用 Flex/Grid 响应式布局，桌面端呈现专业的预览区 + 编辑器双栏工作区，移动端自动降级为单列布局。已配置完整的 SEO 优化（预渲染、JSON-LD 结构化数据、Open Graph、Twitter Card、站点地图）。
 
 > 本项目基于 [miaohui789/YZSCQ](https://github.com/miaohui789/YZSCQ) 二次开发，感谢原作者的贡献。
 
@@ -70,9 +70,12 @@ npm run dev
 ### 其他命令
 
 ```bash
-npm run build      # 生产构建
+npm run build      # 生产构建（包含 SEO 预渲染、OG 图片生成、SEO 检查）
 npm run preview    # 本地预览构建结果
 npm run test       # 运行测试
+npm run prerender  # 生成预渲染 HTML
+npm run generate:og-image  # 生成 Open Graph 图片
+npm run check:seo  # 检查 SEO 配置
 ```
 
 ---
@@ -160,6 +163,18 @@ src/
 
 ---
 
+## SEO 配置
+
+项目已配置完整的搜索引擎优化：
+
+- **预渲染**：`scripts/generate-prerender.ts` 在构建时将静态内容注入 `dist/index.html`
+- **结构化数据**：`index.html` 包含 JSON-LD `WebApplication` 类型标记
+- **Open Graph / Twitter Card**：支持社交分享预览
+- **站点地图**：`public/sitemap.xml` 提交搜索引擎
+- **robots.txt**：`public/robots.txt` 允许搜索引擎抓取
+
+---
+
 ## 后续规划
 
 - 扩展模板体系，支持英文章、椭圆章、法人私章等多种印章类型
@@ -172,7 +187,7 @@ src/
 ## 说明
 
 - 项目使用 MIT 许可证开源
-- 已配置 Vercel 部署，通过 `.vercel/project.json` 关联
+- 已配置 Vercel 部署，通过 `vercel.json` 关联
 - 代码使用 Prettier 格式化（无分号、单引号、100 字符宽度）
 
 <div align="center">
