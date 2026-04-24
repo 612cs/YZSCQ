@@ -1,12 +1,3 @@
-export interface SealTemplateMeta {
-  code: string
-  name: string
-  category: string
-  preview: string
-  tags?: string[]
-  enabled: boolean
-}
-
 export interface SealConfig {
   companyName: string
   sealName: string
@@ -52,13 +43,4 @@ export interface SealRenderResult {
   svgMarkup: string
   width: number
   height: number
-}
-
-export interface SealPreset {
-  id: string
-  name: string
-  templateCode: string
-  config: SealConfig
-  createdAt: string
-  updatedAt: string
 }

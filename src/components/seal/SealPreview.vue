@@ -3,7 +3,7 @@
     <header class="preview-header">
       <div>
         <p class="eyebrow">Preview</p>
-        <h2>{{ templateName }}</h2>
+        <h2>公章印章</h2>
       </div>
       <div class="toolbar">
         <BaseButton variant="secondary" @click="$emit('reset')">恢复默认</BaseButton>
@@ -24,7 +24,6 @@ import BaseButton from '@/components/common/BaseButton.vue'
 
 defineProps<{
   svgMarkup: string
-  templateName: string
 }>()
 
 defineEmits<{
@@ -40,6 +39,7 @@ defineEmits<{
   flex-direction: column;
   gap: 18px;
   padding: 20px;
+  height: 100%;
 }
 
 .preview-header {
