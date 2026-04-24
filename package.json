@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build",
+    "build": "vue-tsc -b && vite build && npm run prerender",
+    "prerender": "tsx --tsconfig tsconfig.app.json scripts/generate-prerender.ts",
     "preview": "vite preview",
     "test": "vitest run"
   },
@@ -18,6 +19,7 @@
     "@types/node": "^22.14.1",
     "@vitejs/plugin-vue": "^5.2.3",
     "sass": "^1.86.3",
+    "tsx": "^4.21.0",
     "typescript": "^5.8.3",
     "vite": "^5.4.18",
     "vitest": "^4.1.5",
