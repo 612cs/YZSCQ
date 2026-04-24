@@ -4,7 +4,7 @@
  *
  * 使用方式: tsx --tsconfig tsconfig.app.json scripts/generate-prerender.ts
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 // 直接通过相对路径导入，tsx + tsconfig.app.json 会处理内部的 @/ 别名
@@ -59,6 +59,20 @@ const SEO_CONFIG: SealConfig = {
 function main() {
   console.log('[prerender] Generating static shell...')
 
+  // Pre-checks — fail early with clear messages
+  if (!existsSync(DIST_DIR)) {
+    throw new Error(`[prerender] dist/ directory not found at ${DIST_DIR}. Run vite build first.`)
+  }
+  if (!existsSync(INDEX_PATH)) {
+    throw new Error(`[prerender] dist/index.html not found at ${INDEX_PATH}.`)
+  }
+
+  let html = readFileSync(INDEX_PATH, 'utf-8')
+
+  if (!html.includes('<div id="app"></div>')) {
+    throw new Error('[prerender] App mount placeholder <div id="app"></div> not found in dist/index.html.')
+  }
+
   const result = renderSealSvg(SEO_CONFIG)
   const now = new Date().toISOString()
 
@@ -71,7 +85,15 @@ function main() {
       }
       .static-header { padding: 40px 24px 16px; text-align: center; }
       .static-header h1 { font-size: 28px; color: #1e6f75; margin: 0 0 6px; font-weight: 700; }
-      .static-header p { font-size: 15px; color: #64748b; margin: 0; }
+      .static-header p { font-size: 15px; color: #64748b; margin: 0 6px; }
+      .static-features {
+        display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px;
+        padding: 0 24px 20px; max-width: 800px; margin: 0 auto;
+      }
+      .static-features span {
+        font-size: 13px; color: #475569; white-space: nowrap;
+      }
+      .static-features span::before { content: "✓ "; color: #1e6f75; font-weight: 700; }
       .static-main {
         display: flex; flex: 1; align-items: flex-start; justify-content: center;
         gap: 48px; padding: 24px; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box;
@@ -102,6 +124,8 @@ function main() {
       @media (max-width: 720px) {
         .static-main { flex-direction: column; align-items: center; padding: 12px; gap: 24px; }
         .static-header h1 { font-size: 22px; }
+        .static-features { gap: 4px 14px; }
+        .static-features span { font-size: 12px; }
         .static-form-placeholder { min-width: auto; width: 100%; padding: 20px; }
       }
     </style>
@@ -110,6 +134,13 @@ function main() {
         <h1>印章生成器</h1>
         <p>免费在线电子印章生成工具 — SVG 实时预览，高清 PNG 导出</p>
       </header>
+      <div class="static-features">
+        <span>在线生成印章</span>
+        <span>SVG 实时预览</span>
+        <span>高清 PNG 导出</span>
+        <span>多种印章模板</span>
+        <span>印章老化做旧效果</span>
+      </div>
       <main class="static-main">
         <div class="static-preview">
           ${result.svgMarkup}
@@ -149,11 +180,22 @@ function main() {
     </div>
   `.replace(/\n\s{4}/g, '\n').trim()
 
-  const html = readFileSync(INDEX_PATH, 'utf-8')
   const injected = html.replace(
     '<div id="app"></div>',
     `<div id="app">${staticShell}</div>`
   )
+
+  if (injected === html || !injected.includes('vue-static-shell')) {
+    throw new Error('[prerender] Static shell injection failed — placeholder replacement produced no change.')
+  }
+
+  // Verify expected SEO markers are present in the final HTML
+  const requiredMarkers = ['vue-static-shell', '印章生成器', '<svg']
+  for (const marker of requiredMarkers) {
+    if (!injected.includes(marker)) {
+      throw new Error(`[prerender] Verification failed — missing expected marker "${marker}" in output.`)
+    }
+  }
 
   writeFileSync(INDEX_PATH, injected, 'utf-8')
 

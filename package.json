@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build && npm run prerender",
+    "build": "vue-tsc -b && vite build && npm run generate:og-image && npm run prerender && npm run check:seo",
     "prerender": "tsx --tsconfig tsconfig.app.json scripts/generate-prerender.ts",
+    "generate:og-image": "tsx --tsconfig tsconfig.app.json scripts/generate-og-image.ts",
+    "check:seo": "tsx --tsconfig tsconfig.app.json scripts/check-seo.ts",
     "preview": "vite preview",
     "test": "vitest run"
   },
@@ -19,6 +21,7 @@
     "@types/node": "^22.14.1",
     "@vitejs/plugin-vue": "^5.2.3",
     "sass": "^1.86.3",
+    "sharp": "^0.34.5",
     "tsx": "^4.21.0",
     "typescript": "^5.8.3",
     "vite": "^5.4.18",
