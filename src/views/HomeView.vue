@@ -20,6 +20,9 @@ const sealStore = useSealStore()
 
 <style scoped lang="scss">
 .page {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   min-height: 100vh;
   background:
     linear-gradient(180deg, rgba(30, 111, 117, 0.08), transparent 280px),
@@ -27,9 +30,25 @@ const sealStore = useSealStore()
 }
 
 .page-main {
-  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
-  padding: 16px;
+  min-height: auto;
+}
+
+.page-main > * {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+@media (max-width: 720px) {
+  .page-main {
+    padding: 12px;
+    min-height: auto;
+  }
 }
 </style>

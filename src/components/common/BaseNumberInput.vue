@@ -41,16 +41,17 @@ function normalizeNumber(value: number) {
 <style scoped lang="scss">
 .number-input {
   display: grid;
-  grid-template-columns: 34px 1fr 34px;
+  grid-template-columns: 40px minmax(0, 1fr) 40px;
   gap: 6px;
 
   button,
   input {
-    min-height: 40px;
+    min-height: 44px;
     border: 1px solid #d6dee8;
     border-radius: 8px;
     background: #fff;
     color: #17212f;
+    box-sizing: border-box;
   }
 
   button {

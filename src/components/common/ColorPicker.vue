@@ -24,11 +24,11 @@ const onInput = (event: Event) => {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 40px;
+  min-height: 44px;
 
   input {
     width: 44px;
-    height: 40px;
+    height: 44px;
     border: 1px solid #d6dee8;
     border-radius: 8px;
     background: transparent;

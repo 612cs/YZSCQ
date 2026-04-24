@@ -32,13 +32,38 @@
           <h3>{{ group.label }}</h3>
           <p>{{ group.summary }}</p>
         </div>
+        
+        <div v-for="field in group.fields.filter(f => f.control === 'boolean' || f.control === 'color')" :key="field.key" class="section-title-extra">
+          <template v-if="field.control === 'boolean'">
+            <span class="field-label">{{ field.label }}</span>
+            <span class="switch-control">
+              <input
+                :checked="getBooleanValue(field.key)"
+                type="checkbox"
+                @change="updateField(field.key, ($event.target as HTMLInputElement).checked)"
+              />
+              <span class="switch-track" />
+            </span>
+          </template>
+          <template v-else-if="field.control === 'color'">
+            <span class="field-label" style="margin-right: 4px;">{{ field.label }}</span>
+            <ColorPicker
+              :model-value="getStringValue(field.key)"
+              @update:model-value="updateField(field.key, $event)"
+            />
+          </template>
+        </div>
       </div>
 
       <div class="field-list">
         <label
-          v-for="field in group.fields"
+          v-for="(field, index) in group.fields.filter(f => f.control !== 'boolean' && f.control !== 'color')"
           :key="field.key"
-          :class="['field-row', `field-row--${field.control}`]"
+          :class="[
+            'field-row', 
+            `field-row--${field.control}`,
+            { 'is-lone-number': isLoneNumber(field, group.fields) }
+          ]"
         >
           <span class="field-label">{{ field.label }}</span>
 
@@ -113,6 +138,24 @@ const getNumberValue = (key: SealEditorFieldKey) => {
   return typeof value === 'number' ? value : Number(value) || 0
 }
 const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
+
+const isLoneNumber = (field: any, allFields: any[]) => {
+  if (field.control !== 'number') return false
+  const activeFields = allFields.filter((f: any) => f.control !== 'boolean' && f.control !== 'color')
+  const myIndex = activeFields.findIndex((f: any) => f.key === field.key)
+  if (myIndex === -1) return false
+  
+  let blockStart = myIndex
+  while (blockStart > 0 && activeFields[blockStart - 1].control === 'number') blockStart--
+  
+  let blockEnd = myIndex
+  while (blockEnd < activeFields.length - 1 && activeFields[blockEnd + 1].control === 'number') blockEnd++
+  
+  const blockLength = blockEnd - blockStart + 1
+  const indexInBlock = myIndex - blockStart
+  
+  return indexInBlock === blockLength - 1 && blockLength % 2 !== 0
+}
 </script>
 
 <style scoped lang="scss">
@@ -152,7 +195,7 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
 }
 
 .reset-link {
-  min-height: 34px;
+  min-height: 40px;
   border: 1px solid #d8e1ea;
   border-radius: 8px;
   background: #fff;
@@ -173,6 +216,7 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
 }
 
 .category-tabs {
+  flex-shrink: 0;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
@@ -184,7 +228,7 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
 .tab-btn {
   display: flex;
   min-width: 0;
-  min-height: 42px;
+  min-height: 44px;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
@@ -196,7 +240,15 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
   font-size: 13px;
   cursor: pointer;
 
+  span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   small {
+    flex-shrink: 0;
     color: #8a96a3;
     font-size: 11px;
   }
@@ -219,12 +271,15 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
 }
 
 .editor-section {
+  flex: 1;
   min-height: 0;
-  overflow: auto;
   padding: 20px 22px 28px;
 }
 
 .section-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-bottom: 18px;
 
   h3 {
@@ -240,6 +295,12 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
   }
 }
 
+.section-title-extra {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .field-list {
   display: grid;
   gap: 12px;
@@ -248,7 +309,7 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
 .field-row {
   display: grid;
   grid-template-columns: minmax(92px, 0.42fr) minmax(0, 1fr);
-  align-items: center;
+  align-items: start;
   gap: 12px;
   min-width: 0;
 }
@@ -263,7 +324,7 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
   position: relative;
   display: inline-flex;
   width: 44px;
-  height: 24px;
+  min-height: 44px;
   align-items: center;
 
   input {
@@ -310,14 +371,91 @@ const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
   outline-offset: 2px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.header-color {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-color-label {
+  color: #445063;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 @media (max-width: 920px) {
   .seal-editor {
     border-top: 1px solid #dfe7ee;
     border-left: 0;
   }
 
+  .editor-section {
+    overflow: visible;
+  }
+
   .category-tabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .editor-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .reset-link {
+    width: auto;
+  }
+
+  .category-tabs {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab-btn {
+      flex: 0 0 auto;
+      min-width: max-content;
+    }
+  }
+
+  .field-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+  }
+
+  .field-row {
+    grid-template-columns: minmax(0, 1fr);
+    grid-column: span 2;
+    gap: 8px;
+
+    &--number {
+      grid-column: span 1;
+    }
+
+    &.is-lone-number {
+      grid-column: span 2;
+    }
   }
 }
 </style>

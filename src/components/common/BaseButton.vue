@@ -19,7 +19,7 @@ withDefaults(
 
 <style scoped lang="scss">
 .base-button {
-  min-height: 40px;
+  min-height: 44px;
   border: 1px solid transparent;
   border-radius: 8px;
   padding: 10px 16px;

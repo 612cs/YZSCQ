@@ -1,17 +1,10 @@
 <template>
   <section class="seal-preview">
-    <header class="preview-header">
-      <div>
-        <p class="eyebrow">Preview</p>
-        <h2>公章印章</h2>
-      </div>
+    <div class="canvas-shell">
       <div class="toolbar">
         <BaseButton variant="secondary" @click="$emit('reset')">恢复默认</BaseButton>
         <BaseButton @click="$emit('export')">下载印章</BaseButton>
       </div>
-    </header>
-
-    <div class="canvas-shell">
       <div class="canvas-grid">
         <div class="canvas" v-html="svgMarkup" />
       </div>
@@ -37,46 +30,28 @@ defineEmits<{
   display: flex;
   min-height: 0;
   flex-direction: column;
-  gap: 18px;
-  padding: 20px;
+  padding: clamp(16px, 2vw, 24px);
   height: 100%;
 }
 
-.preview-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-
-  h2 {
-    margin: 2px 0 0;
-    color: #17212f;
-    font-size: 22px;
-    line-height: 1.2;
-  }
-}
-
-.eyebrow {
-  margin: 0;
-  color: #1e6f75;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .toolbar {
+  position: absolute;
+  top: clamp(16px, 2vw, 24px);
+  right: clamp(16px, 2vw, 24px);
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 10px;
+  z-index: 10;
 }
 
 .canvas-shell {
+  position: relative;
   display: grid;
-  min-height: 520px;
   flex: 1;
   place-items: center;
+  min-height: clamp(200px, 45vh, 560px);
+  padding: clamp(20px, 4vw, 40px);
   border: 1px solid #dce5ee;
   border-radius: 12px;
   background:
@@ -109,17 +84,13 @@ defineEmits<{
 }
 
 @media (max-width: 720px) {
-  .preview-header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .toolbar {
-    justify-content: flex-start;
+  .seal-preview {
+    height: auto;
   }
 
   .canvas-shell {
-    min-height: 360px;
+    min-height: clamp(280px, 46vh, 400px);
+    padding: 20px;
   }
 }
 </style>

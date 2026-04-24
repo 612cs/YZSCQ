@@ -46,16 +46,14 @@ const handleExport = async () => {
 <style scoped lang="scss">
 .workspace-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
-  height: 100%;
+  grid-template-areas: 'preview inspector';
+  grid-template-columns: minmax(0, 1fr) clamp(360px, 30vw, 440px);
+  min-height: 100vh;
   background: #fff;
-  border: 1px solid #dfe7ee;
-  border-radius: 14px;
-  box-shadow: 0 18px 60px rgba(23, 33, 47, 0.08);
-  overflow: hidden;
 }
 
 .workspace-main {
+  grid-area: preview;
   display: flex;
   min-width: 0;
   min-height: 0;
@@ -63,9 +61,29 @@ const handleExport = async () => {
   background: #f2f6f8;
 }
 
+.workspace-panel :deep(.seal-editor) {
+  grid-area: inspector;
+}
+
 @media (max-width: 1080px) {
   .workspace-panel {
+    grid-template-columns: minmax(0, 1fr) clamp(320px, 34vw, 380px);
+  }
+}
+
+@media (max-width: 920px) {
+  .workspace-panel {
+    grid-template-areas:
+      'preview'
+      'inspector';
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .workspace-main {
+    min-height: 280px;
   }
 }
 </style>

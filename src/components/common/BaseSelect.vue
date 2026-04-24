@@ -28,8 +28,9 @@ const onChange = (event: Event) => {
 
 <style scoped lang="scss">
 .base-select {
+  box-sizing: border-box;
   width: 100%;
-  min-height: 40px;
+  min-height: 44px;
   border: 1px solid #d6dee8;
   border-radius: 8px;
   background: #fff;

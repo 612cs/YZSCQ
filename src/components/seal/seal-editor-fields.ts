@@ -27,11 +27,11 @@ export const SEAL_EDITOR_GROUPS: SealEditorGroup[] = [
     fields: [
       { key: 'companyName', label: '公司名', control: 'text' },
       { key: 'companyFontSize', label: '字号', control: 'number' },
-      { key: 'companyFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS },
       { key: 'companyBold', label: '加粗', control: 'boolean' },
       { key: 'companyLetterSpacing', label: '字间距', control: 'number' },
       { key: 'companyOffsetY', label: '距外圈', control: 'number' },
-      { key: 'companyStretchY', label: '上下拉伸', control: 'number', step: 0.1 }
+      { key: 'companyStretchY', label: '上下拉伸', control: 'number', step: 0.1 },
+      { key: 'companyFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS }
     ]
   },
   {
@@ -41,12 +41,12 @@ export const SEAL_EDITOR_GROUPS: SealEditorGroup[] = [
     fields: [
       { key: 'sealName', label: '章名', control: 'text' },
       { key: 'sealNameFontSize', label: '字号', control: 'number' },
-      { key: 'sealNameFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS },
       { key: 'sealNameBold', label: '加粗', control: 'boolean' },
       { key: 'sealNameLetterSpacing', label: '字间距', control: 'number' },
       { key: 'sealNameStretchY', label: '上下拉伸', control: 'number', step: 0.1 },
       { key: 'sealNameOffsetX', label: '水平偏移', control: 'number' },
-      { key: 'sealNameOffsetY', label: '垂直偏移', control: 'number' }
+      { key: 'sealNameOffsetY', label: '垂直偏移', control: 'number' },
+      { key: 'sealNameFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS }
     ]
   },
   {
@@ -56,10 +56,10 @@ export const SEAL_EDITOR_GROUPS: SealEditorGroup[] = [
     fields: [
       { key: 'centerText', label: '中心内容', control: 'text' },
       { key: 'centerFontSize', label: '字号', control: 'number' },
-      { key: 'centerFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS },
       { key: 'centerBold', label: '加粗', control: 'boolean' },
       { key: 'centerLetterSpacing', label: '字间距', control: 'number' },
-      { key: 'centerStretchY', label: '上下拉伸', control: 'number', step: 0.1 }
+      { key: 'centerStretchY', label: '上下拉伸', control: 'number', step: 0.1 },
+      { key: 'centerFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS }
     ]
   },
   {
@@ -68,13 +68,13 @@ export const SEAL_EDITOR_GROUPS: SealEditorGroup[] = [
     summary: '底部弧线微缩文字',
     fields: [
       { key: 'securityCode', label: '防伪码', control: 'text' },
-      { key: 'securityFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS },
       { key: 'securityBold', label: '加粗', control: 'boolean' },
       { key: 'securityLetterSpacing', label: '字间距', control: 'number' },
       { key: 'securityOffsetY', label: '距外圈', control: 'number' },
       { key: 'securityStretchY', label: '上下拉伸', control: 'number', step: 0.1 },
       { key: 'securityFlipX', label: '左右反转', control: 'boolean' },
-      { key: 'securityFlipY', label: '上下反转', control: 'boolean' }
+      { key: 'securityFlipY', label: '上下反转', control: 'boolean' },
+      { key: 'securityFontFamily', label: '字体', control: 'select', options: FONT_OPTIONS }
     ]
   },
   {
