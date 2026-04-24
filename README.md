@@ -20,6 +20,8 @@
 
 当前为纯前端 MVP 阶段，聚焦印章单页面编辑工作区体验，已完成 Flex/Grid 布局重构，适配桌面端操作场景。
 
+> 本项目基于 [miaohui789/YZSCQ](https://github.com/miaohui789/YZSCQ) 二次开发，感谢原作者的贡献。
+
 ---
 
 ## 核心功能
@@ -169,13 +171,15 @@ src/
 
 ## 说明
 
-- 当前未设置 LICENSE 文件，如需开源发布建议补充许可证
-- 项目已配置 Vercel 部署，通过 `.vercel/project.json` 关联
+- 项目使用 MIT 许可证开源
+- 已配置 Vercel 部署，通过 `.vercel/project.json` 关联
 - 代码使用 Prettier 格式化（无分号、单引号、100 字符宽度）
 
 <div align="center">
 
 ---
+
+<a href="https://github.com/612cs/YZSCQ">GitHub</a> &nbsp;·&nbsp; <a href="mailto:13135194467@163.com">联系作者</a>
 
 Built with Vue 3, TypeScript and Vite
 
