@@ -20,15 +20,24 @@ export interface SealConfig {
   companyLetterSpacing: number
   companyStretchY: number
   companyOffsetY: number
+  companyBold: boolean
   sealNameFontSize: number
   sealNameLetterSpacing: number
   sealNameStretchY: number
+  sealNameOffsetX: number
+  sealNameOffsetY: number
+  sealNameBold: boolean
   centerFontSize: number
   centerLetterSpacing: number
   centerStretchY: number
+  centerBold: boolean
   securityFontSize: number
   securityLetterSpacing: number
+  securityOffsetY: number
   securityStretchY: number
+  securityBold: boolean
+  securityFlipX: boolean
+  securityFlipY: boolean
   outerBorderWidth: number
   innerBorderWidth: number
   color: string
@@ -36,6 +45,7 @@ export interface SealConfig {
   roughnessEnabled: boolean
   roughnessLevel: number
   roughnessDensity: number
+  roughnessNoise: number
 }
 
 export interface SealRenderResult {

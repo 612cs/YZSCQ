@@ -13,22 +13,32 @@ export const DEFAULT_SEAL_CONFIG: SealConfig = {
   companyLetterSpacing: 0,
   companyStretchY: 1,
   companyOffsetY: 4,
+  companyBold: false,
   sealNameFontSize: 16,
   sealNameLetterSpacing: 0,
   sealNameStretchY: 1,
+  sealNameOffsetX: 0,
+  sealNameOffsetY: 0,
+  sealNameBold: false,
   centerFontSize: 50,
   centerLetterSpacing: 0,
   centerStretchY: 1,
+  centerBold: false,
   securityFontSize: 10,
   securityLetterSpacing: 2,
+  securityOffsetY: 4,
   securityStretchY: 1,
+  securityBold: false,
+  securityFlipX: false,
+  securityFlipY: false,
   outerBorderWidth: 6,
   innerBorderWidth: 2,
   color: '#ef3f3a',
   diameter: 240,
   roughnessEnabled: false,
   roughnessLevel: 10,
-  roughnessDensity: 60
+  roughnessDensity: 60,
+  roughnessNoise: 0
 }
 
 export const STORAGE_KEYS = {

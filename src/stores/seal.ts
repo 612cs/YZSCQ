@@ -11,9 +11,15 @@ export const useSealStore = defineStore('seal', () => {
   const { getItem, setItem } = useLocalCache()
   const currentTemplateCode = ref(getItem<string>(STORAGE_KEYS.currentTemplate, SEAL_TEMPLATE_LIST[0].code))
   const cachedConfig = getItem<Partial<SealConfig>>(STORAGE_KEYS.currentConfig, {})
+  const migratedConfig = {
+    ...cachedConfig,
+    securityOffsetY: cachedConfig.securityOffsetY === 18 || cachedConfig.securityOffsetY === undefined
+      ? DEFAULT_SEAL_CONFIG.securityOffsetY
+      : cachedConfig.securityOffsetY
+  }
   const config = ref<SealConfig>({
     ...DEFAULT_SEAL_CONFIG,
-    ...cachedConfig
+    ...migratedConfig
   })
 
   const currentTemplate = computed(

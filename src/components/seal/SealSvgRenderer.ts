@@ -10,23 +10,28 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
   const innerRadius = outerRadius - 20
   const companyInset = Math.max(config.companyFontSize * 0.72, 14) + config.companyOffsetY
   const companyTextRadius = outerRadius - companyInset
-  const securityTextRadius = outerRadius - Math.max(config.securityFontSize * 1.8, 18)
+  const securityOffsetY = Number.isFinite(config.securityOffsetY) ? config.securityOffsetY : 4
+  const securityTextRadius = Math.max(1, outerRadius - config.outerBorderWidth * 0.5 - Math.max(0, securityOffsetY) - config.securityFontSize * 0.5)
   const clipRadius = outerRadius + config.outerBorderWidth * 0.5
   const escapedSealName = escapeXml(config.sealName)
   const escapedCenterText = escapeXml(config.centerText)
-  const escapedSecurityCode = escapeXml(config.securityCode)
   const companyFontFamily = resolveFontFamily(config.companyFontFamily)
   const sealNameFontFamily = resolveFontFamily(config.sealNameFontFamily)
   const centerFontFamily = resolveFontFamily(config.centerFontFamily)
   const securityFontFamily = resolveFontFamily(config.securityFontFamily)
+  const companyFontWeight = config.companyBold ? 'bold' : 'normal'
+  const sealNameFontWeight = config.sealNameBold ? 'bold' : 'normal'
+  const centerFontWeight = config.centerBold ? 'bold' : 'normal'
+  const securityFontWeight = config.securityBold ? 'bold' : 'normal'
   const agingMaskMarkup = renderAgingMask({
     enabled: config.roughnessEnabled,
     level: config.roughnessLevel,
     density: config.roughnessDensity,
+    noise: config.roughnessNoise,
     size: canvasSize,
     center,
     clipRadius,
-    seedText: `${config.companyName}|${config.sealName}|${config.securityCode}|${config.diameter}|${config.roughnessLevel}|${config.roughnessDensity}`
+    seedText: `${config.companyName}|${config.sealName}|${config.securityCode}|${config.diameter}|${config.roughnessLevel}|${config.roughnessDensity}|${config.roughnessNoise}`
   })
   const companyTextMarkup = renderTopArcText({
     text: config.companyName,
@@ -34,15 +39,31 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
     radius: companyTextRadius,
     fontSize: config.companyFontSize,
     fontFamily: companyFontFamily,
+    fontWeight: companyFontWeight,
     letterSpacing: config.companyLetterSpacing,
     color: config.color,
     stretchY: config.companyStretchY
   })
 
+  const sealNameX = center + config.sealNameOffsetX
+  const sealNameY = center + 52 + config.sealNameOffsetY
+  const securityTextMarkup = renderBottomArcText({
+    text: config.securityCode,
+    center,
+    radius: securityTextRadius,
+    fontSize: config.securityFontSize,
+    fontFamily: securityFontFamily,
+    fontWeight: securityFontWeight,
+    letterSpacing: config.securityLetterSpacing,
+    color: config.color,
+    stretchY: config.securityStretchY,
+    flipX: config.securityFlipX,
+    flipY: config.securityFlipY
+  })
+
   const svgMarkup = `
     <svg xmlns="http://www.w3.org/2000/svg" width="${canvasSize}" height="${canvasSize}" viewBox="0 0 ${canvasSize} ${canvasSize}">
       <defs>
-        <path id="bottomArc" d="${describeArc(center, center, securityTextRadius, 125, 235, 1)}" />
         ${agingMaskMarkup}
       </defs>
       <g mask="url(#sealAgingMask)">
@@ -50,14 +71,15 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
         <circle cx="${center}" cy="${center}" r="${innerRadius}" fill="none" stroke="${config.color}" stroke-width="${config.innerBorderWidth}" opacity="0.65" />
         ${companyTextMarkup}
         <text
-          x="${center}"
-          y="${center + 52}"
+          x="${sealNameX}"
+          y="${sealNameY}"
           text-anchor="middle"
           fill="${config.color}"
           font-size="${config.sealNameFontSize}"
           font-family="${sealNameFontFamily}"
+          font-weight="${sealNameFontWeight}"
           letter-spacing="${config.sealNameLetterSpacing}"
-          transform="${createScaleTransform(center, center + 52, config.sealNameStretchY)}"
+          transform="${createScaleTransform(sealNameX, sealNameY, config.sealNameStretchY)}"
         >
           ${escapedSealName}
         </text>
@@ -68,20 +90,13 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
           fill="${config.color}"
           font-size="${config.centerFontSize}"
           font-family="${centerFontFamily}"
+          font-weight="${centerFontWeight}"
           letter-spacing="${config.centerLetterSpacing}"
           transform="${createScaleTransform(center, center + 18, config.centerStretchY)}"
         >
           ${escapedCenterText}
         </text>
-        <text
-          fill="${config.color}"
-          font-size="${config.securityFontSize}"
-          font-family="${securityFontFamily}"
-          letter-spacing="${config.securityLetterSpacing}"
-          transform="${createScaleTransform(center, center, config.securityStretchY)}"
-        >
-          <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">${escapedSecurityCode}</textPath>
-        </text>
+        ${securityTextMarkup}
       </g>
     </svg>
   `.trim()
@@ -99,6 +114,7 @@ function renderTopArcText(options: {
   radius: number
   fontSize: number
   fontFamily: string
+  fontWeight: string
   letterSpacing: number
   color: string
   stretchY: number
@@ -119,6 +135,7 @@ function renderTopArcText(options: {
         fill="${options.color}"
         font-size="${options.fontSize}"
         font-family="${options.fontFamily}"
+        font-weight="${options.fontWeight}"
         text-anchor="middle"
         dominant-baseline="middle"
         transform="${createScaleTransform(point.x, point.y, options.stretchY)}"
@@ -144,6 +161,7 @@ function renderTopArcText(options: {
           fill="${options.color}"
           font-size="${options.fontSize}"
           font-family="${options.fontFamily}"
+          font-weight="${options.fontWeight}"
           text-anchor="middle"
           dominant-baseline="middle"
           transform="rotate(${angle}, ${point.x}, ${point.y}) ${createScaleTransform(point.x, point.y, options.stretchY)}"
@@ -153,16 +171,71 @@ function renderTopArcText(options: {
     .join('')
 }
 
+function renderBottomArcText(options: {
+  text: string
+  center: number
+  radius: number
+  fontSize: number
+  fontFamily: string
+  fontWeight: string
+  letterSpacing: number
+  color: string
+  stretchY: number
+  flipX: boolean
+  flipY: boolean
+}) {
+  const chars = Array.from(options.text)
+
+  if (chars.length === 0) {
+    return ''
+  }
+
+  const safeStretchY = getSafeStretchY(options.stretchY)
+  const scaleX = options.flipX ? -1 : 1
+  const scaleY = options.flipY ? -safeStretchY : safeStretchY
+  const flipYOffset = options.flipY ? -options.fontSize * safeStretchY * 0.28 : 0
+  const charArcLength = options.fontSize * 0.92 + options.letterSpacing
+  const angleStep = Math.max(1.6, Math.min(24, (charArcLength / options.radius) * (180 / Math.PI)))
+  const startAngle = 180 + ((chars.length - 1) * angleStep) / 2
+
+  return chars
+    .map((char, index) => {
+      const angle = startAngle - index * angleStep
+      const point = polarToCartesian(options.center, options.center, options.radius, angle)
+      const tangentAngle = angle - 180
+
+      return `
+        <text
+          x="0"
+          y="0"
+          fill="${options.color}"
+          font-size="${options.fontSize}"
+          font-family="${options.fontFamily}"
+          font-weight="${options.fontWeight}"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          transform="translate(${point.x}, ${point.y}) rotate(${tangentAngle}) translate(0, ${flipYOffset}) scale(${scaleX}, ${scaleY})"
+        >${escapeXml(char)}</text>
+      `.trim()
+    })
+    .join('')
+}
+
 function createScaleTransform(originX: number, originY: number, stretchY: number) {
-  const safeStretchY = Number.isFinite(stretchY) && stretchY > 0 ? stretchY : 1
+  const safeStretchY = getSafeStretchY(stretchY)
 
   return `translate(${originX}, ${originY}) scale(1 ${safeStretchY}) translate(${-originX}, ${-originY})`
+}
+
+function getSafeStretchY(stretchY: number) {
+  return Number.isFinite(stretchY) && stretchY > 0 ? stretchY : 1
 }
 
 function renderAgingMask(options: {
   enabled: boolean
   level: number
   density: number
+  noise: number
   size: number
   center: number
   clipRadius: number
@@ -178,6 +251,7 @@ function renderAgingMask(options: {
 
   const safeLevel = Math.max(1, Math.min(100, options.level))
   const safeDensity = Math.max(1, Math.min(200, options.density))
+  const safeNoise = Math.max(0, Math.min(100, options.noise))
   const dotCount = Math.round(500 + safeDensity * 35 + safeLevel * 35)
   const prng = createPrng(createSeed(options.seedText))
   const dots = Array.from({ length: dotCount }, () => {
@@ -191,13 +265,32 @@ function renderAgingMask(options: {
     return `<circle cx="${x}" cy="${y}" r="${dotRadius}" fill="black" fill-opacity="${opacity}" />`
   }).join('')
 
+  const noiseFilterMarkup = safeNoise > 0
+    ? `<filter id="sealNoiseFilter" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="${0.02 + safeNoise * 0.001}" numOctaves="4" seed="${createSeed(options.seedText + 'noise')}" result="noise" />
+        <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise" />
+        <feComponentTransfer in="grayNoise" result="thresholdNoise">
+          <feFuncA type="linear" slope="${safeNoise * 0.006}" intercept="0" />
+        </feComponentTransfer>
+        <feFlood flood-color="black" result="flood" />
+        <feComposite in="flood" in2="thresholdNoise" operator="in" result="noiseMask" />
+        <feMerge>
+          <feMergeNode in="SourceGraphic" />
+          <feMergeNode in="noiseMask" />
+        </feMerge>
+      </filter>`
+    : ''
+
+  const noiseFilterAttr = safeNoise > 0 ? 'filter="url(#sealNoiseFilter)"' : ''
+
   return `
     <mask id="sealAgingMask">
       <rect width="${options.size}" height="${options.size}" fill="white" />
-      <g>
+      <g ${noiseFilterAttr}>
         ${dots}
       </g>
     </mask>
+    ${noiseFilterMarkup}
   `.trim()
 }
 
@@ -228,22 +321,6 @@ function polarToCartesian(centerX: number, centerY: number, radius: number, angl
     x: centerX + radius * Math.cos(angleInRadians),
     y: centerY + radius * Math.sin(angleInRadians)
   }
-}
-
-function describeArc(
-  centerX: number,
-  centerY: number,
-  radius: number,
-  startAngle: number,
-  endAngle: number,
-  sweepFlag: 0 | 1
-) {
-  const start = polarToCartesian(centerX, centerY, radius, startAngle)
-  const end = polarToCartesian(centerX, centerY, radius, endAngle)
-  const angleDiff = Math.abs(endAngle - startAngle)
-  const largeArcFlag = angleDiff <= 180 ? '0' : '1'
-
-  return `M ${start.x} ${start.y} A ${radius} ${radius} 0 ${largeArcFlag} ${sweepFlag} ${end.x} ${end.y}`
 }
 
 function escapeXml(value: string) {
