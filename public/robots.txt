@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yzsc.climbersheng.me/sitemap.xml
