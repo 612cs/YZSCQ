@@ -29,6 +29,7 @@ export interface SealConfig {
   securityBold: boolean
   securityFlipX: boolean
   securityFlipY: boolean
+  innerBorderOffset: number
   outerBorderWidth: number
   innerBorderWidth: number
   color: string

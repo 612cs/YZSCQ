@@ -33,7 +33,7 @@
           <p>{{ group.summary }}</p>
         </div>
         
-        <div v-for="field in group.fields.filter(f => f.control === 'boolean' || f.control === 'color')" :key="field.key" class="section-title-extra">
+        <div v-for="field in group.fields.filter(f => isHeaderField(f))" :key="field.key" class="section-title-extra">
           <template v-if="field.control === 'boolean'">
             <span class="field-label">{{ field.label }}</span>
             <span class="switch-control">
@@ -57,7 +57,7 @@
 
       <div class="field-list">
         <label
-          v-for="(field, index) in group.fields.filter(f => f.control !== 'boolean' && f.control !== 'color')"
+          v-for="(field, index) in group.fields.filter(f => !isHeaderField(f))"
           :key="field.key"
           :class="[
             'field-row', 
@@ -139,9 +139,13 @@ const getNumberValue = (key: SealEditorFieldKey) => {
 }
 const getBooleanValue = (key: SealEditorFieldKey) => Boolean(props.config[key])
 
+const isHeaderField = (field: any) => {
+  return field.control === 'color' || field.key.endsWith('Bold') || field.key === 'roughnessEnabled'
+}
+
 const isLoneNumber = (field: any, allFields: any[]) => {
   if (field.control !== 'number') return false
-  const activeFields = allFields.filter((f: any) => f.control !== 'boolean' && f.control !== 'color')
+  const activeFields = allFields.filter((f: any) => !isHeaderField(f))
   const myIndex = activeFields.findIndex((f: any) => f.key === field.key)
   if (myIndex === -1) return false
   
@@ -309,7 +313,7 @@ const isLoneNumber = (field: any, allFields: any[]) => {
 .field-row {
   display: grid;
   grid-template-columns: minmax(92px, 0.42fr) minmax(0, 1fr);
-  align-items: start;
+  align-items: center;
   gap: 12px;
   min-width: 0;
 }
@@ -450,6 +454,10 @@ const isLoneNumber = (field: any, allFields: any[]) => {
     gap: 8px;
 
     &--number {
+      grid-column: span 1;
+    }
+
+    &--boolean {
       grid-column: span 1;
     }
 

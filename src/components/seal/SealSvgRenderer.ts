@@ -7,7 +7,7 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
   const canvasSize = sealSize + padding * 2
   const center = canvasSize / 2
   const outerRadius = sealSize / 2 - config.outerBorderWidth
-  const innerRadius = outerRadius - 20
+  const innerRadius = outerRadius - config.innerBorderOffset
   const companyInset = Math.max(config.companyFontSize * 0.72, 14) + config.companyOffsetY
   const companyTextRadius = outerRadius - companyInset
   const securityOffsetY = Number.isFinite(config.securityOffsetY) ? config.securityOffsetY : 4

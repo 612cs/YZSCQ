@@ -1,8 +1,8 @@
 import type { SealConfig } from '@/types/seal'
 
 export const DEFAULT_SEAL_CONFIG: SealConfig = {
-  companyName: '好文印章科技有限公司',
-  sealName: '合同专用章',
+  companyName: '一人独立开发科技有限公司',
+  sealName: '人事专用章',
   centerText: '★',
   securityCode: '1234567890123',
   companyFontFamily: 'SimSun',
@@ -33,12 +33,13 @@ export const DEFAULT_SEAL_CONFIG: SealConfig = {
   securityFlipY: false,
   outerBorderWidth: 6,
   innerBorderWidth: 2,
+  innerBorderOffset: 30,
   color: '#ef3f3a',
   diameter: 240,
   roughnessEnabled: false,
-  roughnessLevel: 10,
-  roughnessDensity: 60,
-  roughnessNoise: 0
+  roughnessLevel: 100,
+  roughnessDensity: 200,
+  roughnessNoise: 10,
 }
 
 export const STORAGE_KEYS = {

@@ -85,7 +85,8 @@ export const SEAL_EDITOR_GROUPS: SealEditorGroup[] = [
       { key: 'color', label: '印章颜色', control: 'color' },
       { key: 'diameter', label: '印章尺寸', control: 'number' },
       { key: 'outerBorderWidth', label: '外边线', control: 'number' },
-      { key: 'innerBorderWidth', label: '内边线', control: 'number' }
+      { key: 'innerBorderWidth', label: '内边线', control: 'number' },
+      { key: 'innerBorderOffset', label: '内边距', control: 'number' }
     ]
   },
   {
