@@ -29,11 +29,21 @@ const onChange = (event: Event) => {
 <style scoped lang="scss">
 .base-select {
   width: 100%;
-  min-height: 38px;
+  min-height: 40px;
   border: 1px solid #d6dee8;
   border-radius: 8px;
   background: #fff;
+  color: #17212f;
   padding: 0 12px;
   font-size: 14px;
+
+  &:hover {
+    border-color: #afbecd;
+  }
+
+  &:focus {
+    border-color: #1e6f75;
+    outline: 3px solid rgba(30, 111, 117, 0.15);
+  }
 }
 </style>

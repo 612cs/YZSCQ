@@ -24,19 +24,27 @@ const onInput = (event: Event) => {
   display: flex;
   align-items: center;
   gap: 10px;
-  min-height: 38px;
+  min-height: 40px;
 
   input {
     width: 44px;
-    height: 38px;
-    border: 0;
+    height: 40px;
+    border: 1px solid #d6dee8;
+    border-radius: 8px;
     background: transparent;
-    padding: 0;
+    padding: 2px;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 3px solid rgba(30, 111, 117, 0.15);
+      outline-offset: 2px;
+    }
   }
 
   span {
-    color: #5d6877;
+    color: #445063;
     font-size: 13px;
+    font-variant-numeric: tabular-nums;
   }
 }
 </style>

@@ -30,25 +30,40 @@ defineEmits<{
 <style scoped lang="scss">
 .template-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(138px, 1fr));
+  gap: 8px;
 }
 
 button {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
-  padding: 14px;
-  border: 1px solid #d9e3f0;
-  border-radius: 10px;
+  gap: 5px;
+  min-height: 70px;
+  padding: 12px;
+  border: 1px solid #d8e1ea;
+  border-radius: 8px;
   background: #fff;
+  color: #17212f;
   text-align: left;
+  cursor: pointer;
+  transition: border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+
+  &:hover:not(:disabled) {
+    border-color: #1e6f75;
+    background: #f7fbfb;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(47, 128, 237, 0.22);
+    outline-offset: 2px;
+  }
 }
 
 .active {
-  border-color: #2f80ed;
-  box-shadow: 0 0 0 2px rgba(47, 128, 237, 0.12);
+  border-color: #1e6f75;
+  background: #e9f4f3;
+  box-shadow: inset 0 0 0 1px rgba(30, 111, 117, 0.2);
 }
 
 .disabled {
@@ -60,4 +75,3 @@ span {
   font-size: 12px;
 }
 </style>
-

@@ -41,19 +41,35 @@ function normalizeNumber(value: number) {
 <style scoped lang="scss">
 .number-input {
   display: grid;
-  grid-template-columns: 32px 1fr 32px;
-  gap: 8px;
+  grid-template-columns: 34px 1fr 34px;
+  gap: 6px;
 
   button,
   input {
-    min-height: 38px;
+    min-height: 40px;
     border: 1px solid #d6dee8;
     border-radius: 8px;
     background: #fff;
+    color: #17212f;
+  }
+
+  button {
+    cursor: pointer;
+
+    &:hover {
+      border-color: #9fb4c7;
+      background: #f6f9fc;
+    }
   }
 
   input {
     text-align: center;
+  }
+
+  button:focus-visible,
+  input:focus {
+    border-color: #1e6f75;
+    outline: 3px solid rgba(30, 111, 117, 0.15);
   }
 }
 </style>
