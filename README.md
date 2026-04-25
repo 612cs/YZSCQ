@@ -9,6 +9,7 @@
 ![TypeScript](https://img.shields.io/badge/typescript-5.8.3-3178c6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/vite-5.4.18-646cff?logo=vite&logoColor=white)
 ![Pinia](https://img.shields.io/badge/pinia-3.0.3-ffd859)
+[![CI](https://github.com/612cs/YZSCQ/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/612cs/YZSCQ/actions/workflows/ci.yml)
 
 </div>
 
@@ -37,17 +38,18 @@
 
 ## 技术栈
 
-| 类别 | 技术 |
-| --- | --- |
-| 前端框架 | Vue 3（Composition API） |
-| 开发语言 | TypeScript |
-| 构建工具 | Vite |
-| 路由 | Vue Router 4 |
-| 状态管理 | Pinia |
-| 样式方案 | SCSS / Sass |
-| 渲染方案 | SVG + Canvas |
-| 数据存储 | localStorage |
-| 测试 | Vitest |
+| 类别          | 技术                     |
+| ------------- | ------------------------ |
+| 前端框架      | Vue 3（Composition API） |
+| 开发语言      | TypeScript               |
+| 构建工具      | Vite                     |
+| 路由          | Vue Router 4             |
+| 状态管理      | Pinia                    |
+| 样式方案      | SCSS / Sass              |
+| 渲染方案      | SVG + Canvas             |
+| 数据存储      | localStorage             |
+| 测试          | Vitest                   |
+| Lint / Format | Oxlint / Oxfmt           |
 
 ---
 
@@ -155,9 +157,9 @@ src/
 
 ## 路由
 
-| 路径 | 页面 | 说明 |
-| --- | --- | --- |
-| `/` | HomeView | 印章编辑工作区 |
+| 路径 | 页面     | 说明           |
+| ---- | -------- | -------------- |
+| `/`  | HomeView | 印章编辑工作区 |
 
 当前为单页面应用，Vercel 通过 `vercel.json` 配置 catch-all rewrite 支持 SPA 路由。
 
@@ -188,7 +190,8 @@ src/
 
 - 项目使用 MIT 许可证开源
 - 已配置 Vercel 部署，通过 `vercel.json` 关联
-- 代码使用 Prettier 格式化（无分号、单引号、100 字符宽度）
+- 代码使用 Oxfmt 格式化，风格与原先的 Prettier 保持一致（无分号、单引号、100 字符宽度）
+- `Oxc` 是 Oxlint / Oxfmt 背后的 Rust 工具链底座，本项目通常不需要单独直接依赖它，除非后面要自己做解析、转换或自定义编译相关工具
 
 <div align="center">
 

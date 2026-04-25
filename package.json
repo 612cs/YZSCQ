@@ -1,11 +1,15 @@
 {
   "name": "yinzhangshengchengqi",
-  "private": true,
   "version": "0.1.0",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build && npm run generate:og-image && npm run prerender && npm run check:seo",
+    "format": "oxfmt src scripts README.md index.html package.json vite.config.ts tsconfig.app.json tsconfig.json tsconfig.node.json .oxlintrc.json .oxfmtrc.json",
+    "format:check": "oxfmt --check src scripts README.md index.html package.json vite.config.ts tsconfig.app.json tsconfig.json tsconfig.node.json .oxlintrc.json .oxfmtrc.json",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix",
     "prerender": "tsx --tsconfig tsconfig.app.json scripts/generate-prerender.ts",
     "generate:og-image": "tsx --tsconfig tsconfig.app.json scripts/generate-og-image.ts",
     "check:seo": "tsx --tsconfig tsconfig.app.json scripts/check-seo.ts",
@@ -20,6 +24,8 @@
   "devDependencies": {
     "@types/node": "^22.14.1",
     "@vitejs/plugin-vue": "^5.2.3",
+    "oxfmt": "^0.45.0",
+    "oxlint": "^1.61.0",
     "sass": "^1.86.3",
     "sharp": "^0.34.5",
     "tsx": "^4.21.0",

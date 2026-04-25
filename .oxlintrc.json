@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "ignorePatterns": [
+    ".claude/**",
+    ".codex/**",
+    "dist/**",
+    "node_modules/**",
+    ".vercel/**",
+    ".playwright-mcp/**"
+  ]
+}
