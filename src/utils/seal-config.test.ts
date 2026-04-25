@@ -8,7 +8,7 @@ describe('seal config helpers', () => {
   it('fills missing cached fields from defaults', () => {
     const config = normalizeSealConfig({
       companyName: '缓存公司',
-      securityCode: '987654'
+      securityCode: '987654',
     })
 
     expect(config.companyName).toBe('缓存公司')
@@ -19,7 +19,7 @@ describe('seal config helpers', () => {
 
   it('migrates the old security offset default to the current default', () => {
     const config = normalizeSealConfig({
-      securityOffsetY: 18
+      securityOffsetY: 18,
     })
 
     expect(config.securityOffsetY).toBe(DEFAULT_SEAL_CONFIG.securityOffsetY)

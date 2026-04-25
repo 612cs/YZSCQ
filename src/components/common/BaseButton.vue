@@ -12,8 +12,8 @@ withDefaults(
   }>(),
   {
     type: 'button',
-    variant: 'primary'
-  }
+    variant: 'primary',
+  },
 )
 </script>
 
@@ -26,7 +26,11 @@ withDefaults(
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, box-shadow 0.16s ease;
+  transition:
+    background 0.16s ease,
+    border-color 0.16s ease,
+    color 0.16s ease,
+    box-shadow 0.16s ease;
 
   &:focus-visible {
     outline: 3px solid rgba(47, 128, 237, 0.24);

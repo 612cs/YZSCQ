@@ -8,7 +8,7 @@ describe('renderSealSvg', () => {
     const result = renderSealSvg(DEFAULT_SEAL_CONFIG)
 
     expect(result.svgMarkup).toContain('<svg')
-    expect(result.svgMarkup).toContain('>好</text>')
+    expect(result.svgMarkup).toContain('>一</text>')
     expect(result.svgMarkup).toContain('>司</text>')
     expect(result.svgMarkup).toContain(DEFAULT_SEAL_CONFIG.sealName)
     expect(result.svgMarkup).toContain('<circle')
@@ -20,7 +20,7 @@ describe('renderSealSvg', () => {
       ...DEFAULT_SEAL_CONFIG,
       securityCode: '43012110263968',
       securityFlipX: true,
-      securityFlipY: true
+      securityFlipY: true,
     })
 
     expect(result.svgMarkup).not.toContain('<textPath')

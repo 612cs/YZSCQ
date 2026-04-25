@@ -13,8 +13,8 @@ const props = withDefaults(
     step?: number
   }>(),
   {
-    step: 1
-  }
+    step: 1,
+  },
 )
 
 const emit = defineEmits<{

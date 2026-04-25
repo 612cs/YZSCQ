@@ -17,7 +17,7 @@ export const useSealStore = defineStore('seal', () => {
   const patchConfig = (payload: Partial<SealConfig>) => {
     config.value = {
       ...config.value,
-      ...payload
+      ...payload,
     }
   }
 
@@ -30,13 +30,13 @@ export const useSealStore = defineStore('seal', () => {
     (value) => {
       setItem(STORAGE_KEYS.currentConfig, value)
     },
-    { deep: true }
+    { deep: true },
   )
 
   return {
     config,
     renderResult,
     patchConfig,
-    resetConfig
+    resetConfig,
   }
 })

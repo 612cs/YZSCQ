@@ -11,7 +11,13 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
   const companyInset = Math.max(config.companyFontSize * 0.72, 14) + config.companyOffsetY
   const companyTextRadius = outerRadius - companyInset
   const securityOffsetY = Number.isFinite(config.securityOffsetY) ? config.securityOffsetY : 4
-  const securityTextRadius = Math.max(1, outerRadius - config.outerBorderWidth * 0.5 - Math.max(0, securityOffsetY) - config.securityFontSize * 0.5)
+  const securityTextRadius = Math.max(
+    1,
+    outerRadius -
+      config.outerBorderWidth * 0.5 -
+      Math.max(0, securityOffsetY) -
+      config.securityFontSize * 0.5,
+  )
   const clipRadius = outerRadius + config.outerBorderWidth * 0.5
   const escapedSealName = escapeXml(config.sealName)
   const escapedCenterText = escapeXml(config.centerText)
@@ -31,7 +37,7 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
     size: canvasSize,
     center,
     clipRadius,
-    seedText: `${config.companyName}|${config.sealName}|${config.securityCode}|${config.diameter}|${config.roughnessLevel}|${config.roughnessDensity}|${config.roughnessNoise}`
+    seedText: `${config.companyName}|${config.sealName}|${config.securityCode}|${config.diameter}|${config.roughnessLevel}|${config.roughnessDensity}|${config.roughnessNoise}`,
   })
   const companyTextMarkup = renderTopArcText({
     text: config.companyName,
@@ -42,7 +48,7 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
     fontWeight: companyFontWeight,
     letterSpacing: config.companyLetterSpacing,
     color: config.color,
-    stretchY: config.companyStretchY
+    stretchY: config.companyStretchY,
   })
 
   const sealNameX = center + config.sealNameOffsetX
@@ -58,7 +64,7 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
     color: config.color,
     stretchY: config.securityStretchY,
     flipX: config.securityFlipX,
-    flipY: config.securityFlipY
+    flipY: config.securityFlipY,
   })
 
   const svgMarkup = `
@@ -104,7 +110,7 @@ export function renderSealSvg(config: SealConfig): SealRenderResult {
   return {
     svgMarkup,
     width: canvasSize,
-    height: canvasSize
+    height: canvasSize,
   }
 }
 
@@ -265,8 +271,9 @@ function renderAgingMask(options: {
     return `<circle cx="${x}" cy="${y}" r="${dotRadius}" fill="black" fill-opacity="${opacity}" />`
   }).join('')
 
-  const noiseFilterMarkup = safeNoise > 0
-    ? `<filter id="sealNoiseFilter" x="0" y="0" width="100%" height="100%">
+  const noiseFilterMarkup =
+    safeNoise > 0
+      ? `<filter id="sealNoiseFilter" x="0" y="0" width="100%" height="100%">
         <feTurbulence type="fractalNoise" baseFrequency="${0.02 + safeNoise * 0.001}" numOctaves="4" seed="${createSeed(options.seedText + 'noise')}" result="noise" />
         <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise" />
         <feComponentTransfer in="grayNoise" result="thresholdNoise">
@@ -279,7 +286,7 @@ function renderAgingMask(options: {
           <feMergeNode in="noiseMask" />
         </feMerge>
       </filter>`
-    : ''
+      : ''
 
   const noiseFilterAttr = safeNoise > 0 ? 'filter="url(#sealNoiseFilter)"' : ''
 
@@ -314,12 +321,17 @@ function createPrng(seed: number) {
   }
 }
 
-function polarToCartesian(centerX: number, centerY: number, radius: number, angleInDegrees: number) {
+function polarToCartesian(
+  centerX: number,
+  centerY: number,
+  radius: number,
+  angleInDegrees: number,
+) {
   const angleInRadians = (angleInDegrees - 90) * (Math.PI / 180)
 
   return {
     x: centerX + radius * Math.cos(angleInRadians),
-    y: centerY + radius * Math.sin(angleInRadians)
+    y: centerY + radius * Math.sin(angleInRadians),
   }
 }
 

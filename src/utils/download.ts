@@ -8,4 +8,3 @@ export function downloadBlob(blob: Blob, filename: string) {
 
   URL.revokeObjectURL(url)
 }
-

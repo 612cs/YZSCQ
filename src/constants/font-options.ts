@@ -8,7 +8,7 @@ export const FONT_OPTIONS: FontOption[] = [
   { label: '仿宋', value: 'FangSong' },
   { label: '楷体', value: 'KaiTi' },
   { label: '黑体', value: 'SimHei' },
-  { label: '汉仪长宋简', value: 'HYChangSongJ' }
+  { label: '汉仪长宋简', value: 'HYChangSongJ' },
 ]
 
 export function resolveFontFamily(fontKey: string) {
@@ -17,7 +17,7 @@ export function resolveFontFamily(fontKey: string) {
     FangSong: "'FangSong', '仿宋', 'STFangsong', serif",
     KaiTi: "'KaiTi', '楷体', 'STKaiti', serif",
     SimHei: "'SimHei', '黑体', 'Microsoft YaHei', sans-serif",
-    HYChangSongJ: "'HYChangSongJ', '汉仪长宋简', 'STSong', serif"
+    HYChangSongJ: "'HYChangSongJ', '汉仪长宋简', 'STSong', serif",
   }
 
   return fontMap[fontKey] ?? fontMap.SimSun

@@ -44,5 +44,5 @@ export const DEFAULT_SEAL_CONFIG: SealConfig = {
 
 export const STORAGE_KEYS = {
   currentConfig: 'seal.currentConfig',
-  presetList: 'seal.presetList'
+  presetList: 'seal.presetList',
 } as const
