@@ -89,10 +89,7 @@ async function main() {
     writeFileSync(SVG_PATH, svg, 'utf-8')
 
     // Convert to PNG via sharp
-    await sharp(Buffer.from(svg))
-      .resize(WIDTH, HEIGHT)
-      .png()
-      .toFile(PNG_PATH)
+    await sharp(Buffer.from(svg)).resize(WIDTH, HEIGHT).png().toFile(PNG_PATH)
 
     console.log(`[og-image] Done — ${PNG_PATH}`)
   } catch (err) {

@@ -56,8 +56,7 @@ defineEmits<{
   border-radius: 12px;
   background:
     linear-gradient(90deg, rgba(30, 111, 117, 0.05) 1px, transparent 1px),
-    linear-gradient(rgba(30, 111, 117, 0.05) 1px, transparent 1px),
-    #f8fbfd;
+    linear-gradient(rgba(30, 111, 117, 0.05) 1px, transparent 1px), #f8fbfd;
   background-size: 28px 28px;
 }
 
@@ -68,7 +67,13 @@ defineEmits<{
   aspect-ratio: 1;
   border: 1px solid rgba(23, 33, 47, 0.08);
   border-radius: 50%;
-  background: radial-gradient(circle, #fff 0%, #fff 58%, rgba(239, 63, 58, 0.04) 59%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    #fff 0%,
+    #fff 58%,
+    rgba(239, 63, 58, 0.04) 59%,
+    transparent 70%
+  );
   box-shadow: 0 18px 48px rgba(23, 33, 47, 0.08);
 }
 

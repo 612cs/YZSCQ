@@ -32,8 +32,12 @@
           <h3>{{ group.label }}</h3>
           <p>{{ group.summary }}</p>
         </div>
-        
-        <div v-for="field in group.fields.filter(f => isHeaderField(f))" :key="field.key" class="section-title-extra">
+
+        <div
+          v-for="field in group.fields.filter((f) => isHeaderField(f))"
+          :key="field.key"
+          class="section-title-extra"
+        >
           <template v-if="field.control === 'boolean'">
             <span class="field-label">{{ field.label }}</span>
             <span class="switch-control">
@@ -46,7 +50,7 @@
             </span>
           </template>
           <template v-else-if="field.control === 'color'">
-            <span class="field-label" style="margin-right: 4px;">{{ field.label }}</span>
+            <span class="field-label" style="margin-right: 4px">{{ field.label }}</span>
             <ColorPicker
               :model-value="getStringValue(field.key)"
               @update:model-value="updateField(field.key, $event)"
@@ -57,12 +61,12 @@
 
       <div class="field-list">
         <label
-          v-for="(field, index) in group.fields.filter(f => !isHeaderField(f))"
+          v-for="(field, index) in group.fields.filter((f) => !isHeaderField(f))"
           :key="field.key"
           :class="[
-            'field-row', 
+            'field-row',
             `field-row--${field.control}`,
-            { 'is-lone-number': isLoneNumber(field, group.fields) }
+            { 'is-lone-number': isLoneNumber(field, group.fields) },
           ]"
         >
           <span class="field-label">{{ field.label }}</span>
@@ -127,7 +131,7 @@ const activeCategory = ref(editorGroups[0].key)
 
 const updateField = (key: SealEditorFieldKey, value: string | number | boolean) => {
   emit('update', {
-    [key]: value
+    [key]: value,
   } as Partial<SealConfig>)
 }
 
@@ -148,16 +152,17 @@ const isLoneNumber = (field: any, allFields: any[]) => {
   const activeFields = allFields.filter((f: any) => !isHeaderField(f))
   const myIndex = activeFields.findIndex((f: any) => f.key === field.key)
   if (myIndex === -1) return false
-  
+
   let blockStart = myIndex
   while (blockStart > 0 && activeFields[blockStart - 1].control === 'number') blockStart--
-  
+
   let blockEnd = myIndex
-  while (blockEnd < activeFields.length - 1 && activeFields[blockEnd + 1].control === 'number') blockEnd++
-  
+  while (blockEnd < activeFields.length - 1 && activeFields[blockEnd + 1].control === 'number')
+    blockEnd++
+
   const blockLength = blockEnd - blockStart + 1
   const indexInBlock = myIndex - blockStart
-  
+
   return indexInBlock === blockLength - 1 && blockLength % 2 !== 0
 }
 </script>

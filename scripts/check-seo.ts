@@ -16,7 +16,7 @@ const CHECKS: Array<{ label: string; test: (html: string) => boolean }> = [
   },
   {
     label: 'has meta description',
-    test: (html) => html.includes('meta name="description"'),
+    test: (html) => /<meta[\s\n\r\t]+name="description"/.test(html),
   },
   {
     label: 'has canonical URL',

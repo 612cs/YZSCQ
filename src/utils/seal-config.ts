@@ -8,13 +8,14 @@ export function createDefaultSealConfig(): SealConfig {
 export function normalizeSealConfig(config: Partial<SealConfig>): SealConfig {
   const migratedConfig = {
     ...config,
-    securityOffsetY: config.securityOffsetY === 18 || config.securityOffsetY === undefined
-      ? DEFAULT_SEAL_CONFIG.securityOffsetY
-      : config.securityOffsetY
+    securityOffsetY:
+      config.securityOffsetY === 18 || config.securityOffsetY === undefined
+        ? DEFAULT_SEAL_CONFIG.securityOffsetY
+        : config.securityOffsetY,
   }
 
   return {
     ...DEFAULT_SEAL_CONFIG,
-    ...migratedConfig
+    ...migratedConfig,
   }
 }

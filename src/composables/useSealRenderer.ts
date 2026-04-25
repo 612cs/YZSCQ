@@ -7,6 +7,6 @@ export function useSealRenderer(config: MaybeRefOrGetter<SealConfig>) {
   const renderResult = computed(() => renderSealSvg(toValue(config)))
 
   return {
-    renderResult
+    renderResult,
   }
 }

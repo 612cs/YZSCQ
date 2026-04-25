@@ -70,7 +70,9 @@ function main() {
   let html = readFileSync(INDEX_PATH, 'utf-8')
 
   if (!html.includes('<div id="app"></div>')) {
-    throw new Error('[prerender] App mount placeholder <div id="app"></div> not found in dist/index.html.')
+    throw new Error(
+      '[prerender] App mount placeholder <div id="app"></div> not found in dist/index.html.',
+    )
   }
 
   const result = renderSealSvg(SEO_CONFIG)
@@ -178,22 +180,25 @@ function main() {
         </span>
       </footer>
     </div>
-  `.replace(/\n\s{4}/g, '\n').trim()
+  `
+    .replace(/\n\s{4}/g, '\n')
+    .trim()
 
-  const injected = html.replace(
-    '<div id="app"></div>',
-    `<div id="app">${staticShell}</div>`
-  )
+  const injected = html.replace('<div id="app"></div>', `<div id="app">${staticShell}</div>`)
 
   if (injected === html || !injected.includes('vue-static-shell')) {
-    throw new Error('[prerender] Static shell injection failed — placeholder replacement produced no change.')
+    throw new Error(
+      '[prerender] Static shell injection failed — placeholder replacement produced no change.',
+    )
   }
 
   // Verify expected SEO markers are present in the final HTML
   const requiredMarkers = ['vue-static-shell', '印章生成器', '<svg']
   for (const marker of requiredMarkers) {
     if (!injected.includes(marker)) {
-      throw new Error(`[prerender] Verification failed — missing expected marker "${marker}" in output.`)
+      throw new Error(
+        `[prerender] Verification failed — missing expected marker "${marker}" in output.`,
+      )
     }
   }
 

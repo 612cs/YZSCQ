@@ -24,7 +24,6 @@ export function useLocalCache() {
   return {
     getItem,
     setItem,
-    removeItem
+    removeItem,
   }
 }
-

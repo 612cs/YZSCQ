@@ -8,4 +8,3 @@ export function formatTimestamp(date = new Date()) {
 
   return `${year}${month}${day}${hours}${minutes}${seconds}`
 }
-
