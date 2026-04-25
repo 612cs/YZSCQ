@@ -7,9 +7,9 @@ export async function exportSvgToPngBlob(svgMarkup: string, width: number, heigh
     const canvas = document.createElement('canvas')
     const maxEdge = Math.max(width, height)
     const targetSize = 2400
-    const ratio = Math.max(
-      window.devicePixelRatio || 2,
-      Math.min(8, Math.ceil(targetSize / maxEdge)),
+    const ratio = Math.min(
+      8,
+      Math.max(window.devicePixelRatio || 2, Math.ceil(targetSize / maxEdge)),
     )
     const context = canvas.getContext('2d')
 

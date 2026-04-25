@@ -15,7 +15,7 @@
         <a
           href="https://github.com/612cs/YZSCQ"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           title="GitHub"
           class="footer-icon-link"
         >
